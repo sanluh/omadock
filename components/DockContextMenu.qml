@@ -144,6 +144,11 @@ BorderSurface {
         }
 
         ContextRow {
+          text: "Monitor ›"
+          onTriggered: { if (root) root.settingsSubmenu = "monitor" }
+        }
+
+        ContextRow {
           text: "Dock Alignment"
           isHeader: true
         }
@@ -164,6 +169,45 @@ BorderSurface {
           text: "Right Aligned"
           checked: root ? root.alignment === "right" : false
           onTriggered: { if (root) root.setDockAlignment("right") }
+        }
+      }
+
+      // Monitor choices update when displays are connected or disconnected.
+      Column {
+        spacing: Style.space(1)
+        visible: root ? root.settingsSubmenu === "monitor" : false
+
+        ContextRow {
+          text: "‹ Back"
+          textColor: Color.accent
+          onTriggered: { if (root) root.settingsSubmenu = "alignment" }
+        }
+        ContextRow { text: "Show Dock On"; isHeader: true }
+        ContextRow {
+          text: "Automatic (First Monitor)"
+          checked: root ? root.screenName === "" : false
+          onTriggered: { if (root) root.setDockScreen("") }
+        }
+        ContextRow {
+          text: "All Monitors"
+          checked: root ? root.screenName === "all" : false
+          onTriggered: { if (root) root.setDockScreen("all") }
+        }
+        Repeater {
+          model: root ? root.availableScreens : []
+          delegate: ContextRow {
+            required property var modelData
+            text: modelData.name
+            checked: root ? root.screenName === modelData.name : false
+            onTriggered: { if (root) root.setDockScreen(modelData.name) }
+          }
+        }
+        ContextRow {
+          visible: root ? root.screenName !== "" && root.screenName !== "all"
+            && !root.availableScreens.some(function(screen) { return screen.name === root.screenName }) : false
+          text: root ? root.screenName + " (Disconnected)" : ""
+          checked: true
+          isHeader: true
         }
       }
 

@@ -1,10 +1,12 @@
+> **Monitor selection fork:** This fork of [thepathless/omadock](https://github.com/thepathless/omadock) adds a monitor picker and simultaneous docks on all connected monitors. Install this version with `omarchy plugin add https://github.com/sanluh/omadock.git --enable`.
+
 <div align="center">
 
 # ❖ OMADOCK ・ オマドック
 
 ### *A modern, fluid, zero-CPU application dock engineered for Omarchy Linux*
 
-[![Release](https://img.shields.io/badge/release-v3.7.0-6c7086?style=for-the-badge&logo=github&logoColor=white&labelColor=1e1e2e)](https://github.com/thepathless/omadock/releases)
+[![Release](https://img.shields.io/badge/release-v3.8.0-6c7086?style=for-the-badge&logo=github&logoColor=white&labelColor=1e1e2e)](https://github.com/thepathless/omadock/releases)
 [![Omarchy](https://img.shields.io/badge/omarchy-4.0.3+-cba6f7?style=for-the-badge&logo=archlinux&logoColor=white&labelColor=1e1e2e)](https://omarchy.org)
 [![Hyprland](https://img.shields.io/badge/compositor-Hyprland-89b4fa?style=for-the-badge&logo=wayland&logoColor=white&labelColor=1e1e2e)](https://hyprland.org)
 [![Quickshell](https://img.shields.io/badge/shell-Quickshell_Qt6-a6e3a1?style=for-the-badge&logo=qt&logoColor=white&labelColor=1e1e2e)](https://quickshell.org)
@@ -63,7 +65,7 @@ Crafted in the spirit of **Omakase (おまかせ)** — curated elegance and eff
 ### Install
 
 ```bash
-omarchy plugin add https://github.com/thepathless/omadock.git --enable --yes
+omarchy plugin add https://github.com/sanluh/omadock.git --enable --yes
 ```
 
 ### Update
@@ -277,6 +279,25 @@ Right-click the Omarchy logo or empty dock space to access deep customization:
 
 Settings persist in `~/.config/omarchy/omadock.json` and are editable live:
 
+### Choosing monitors
+
+Right-click the Omarchy logo → **Placement & Alignment** → **Monitor**:
+
+- **Automatic (First Monitor)** uses the first screen reported by Quickshell, matching the original default.
+- **All Monitors** creates one dock on every connected screen.
+- Select a connector name, such as **HDMI-A-1**, to show the dock only there.
+
+Each dock appears across workspaces on its monitor, with independent hover, menus,
+and intelligent autohide. Settings and pinned apps are shared. Connecting or
+removing a monitor updates the docks automatically. If a selected monitor is
+unplugged, the dock temporarily uses the first available monitor and returns when
+the selected monitor reconnects. Its saved preference is preserved.
+
+Manual configuration: `"screen": "all"`, `"screen": "HDMI-A-1"`, or omit `screen`
+for Automatic. Existing named-screen configurations continue to work.
+Keyboard shortcuts act on the focused monitor's dock (or the primary dock if
+there is no dock on the focused monitor).
+
 <details open>
 <summary><b>View Annotated Configuration Schema</b></summary>
 <br />
@@ -321,6 +342,7 @@ Settings persist in `~/.config/omarchy/omadock.json` and are editable live:
 
 | Key | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
+| `screen` | `string` | `""` | `"all"`, a connected monitor name, or empty/omitted for the first monitor. |
 | `alignment` | `string` | `"center"` | Dock placement along screen edge: `"center"`, `"left"`, `"right"`. |
 | `autohide` | `bool` | `true` | Enables dock autohiding on hover exit. |
 | `intelligentAutohide` | `bool` | `true` | Hides dock only when windows overlap its bounding box (AABB). |
