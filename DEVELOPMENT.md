@@ -15,6 +15,7 @@ removes the key, so it cannot leave a stale named-screen preference behind.
 
 ```sh
 node tests/monitor-selection.test.cjs
+node tests/folder-icons.test.cjs
 ```
 
 These cover named and automatic selection, all monitors, disconnected-monitor
@@ -34,3 +35,6 @@ On Omarchy 4.0.3 / Hyprland 0.56.2 with eDP-1 and HDMI-A-1:
 
 Physical unplug/replug behavior is covered by selection logic tests; it has not
 been exercised by unplugging a display during development.
+
+Folder icon checks cover the Yaru-orange aliases used by Omarchy themes, explicit
+color presets, dark variants, stack rows, and preservation of other icon choices.

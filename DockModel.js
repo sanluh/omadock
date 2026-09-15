@@ -714,6 +714,15 @@ function folderIconFor(path, explicitIcon) {
   return "folder"
 }
 
+// Orange is the base Yaru palette, not a separately installed variant.
+// Omarchy themes may still refer to it by its color-qualified name.
+function folderThemeName(themeName) {
+  var theme = String(themeName || "").trim()
+  if (theme === "Yaru-orange") return "Yaru"
+  if (theme === "Yaru-orange-dark") return "Yaru-dark"
+  return theme
+}
+
 function resolveThemedFolderIcon(iconName, themeName, folderColorMode, appLibrary) {
   var name = String(iconName || "folder").trim()
   if (name.indexOf("/") === 0 || name.indexOf("file://") === 0) return name
@@ -752,14 +761,14 @@ function resolveThemedFolderIcon(iconName, themeName, folderColorMode, appLibrar
 
   // Explicit custom Yaru color preset (user chose a specific variant):
   if (folderColorMode && folderColorMode !== "theme" && folderColorMode !== "auto") {
-    var customTheme = folderColorMode
+    var customTheme = folderThemeName(folderColorMode)
     if (customTheme.indexOf("Yaru") === 0) {
       return "file:///usr/share/icons/" + customTheme + "/256x256/places/" + name + ".png"
     }
   }
 
   // Automatic theme mode:
-  var theme = String(themeName || "").trim()
+  var theme = folderThemeName(themeName)
 
   // 1. If valid Yaru variant theme (user's active icon theme):
   if (theme.indexOf("Yaru-") === 0 && theme !== "Yaru-gray" && theme !== "Yaru-grey") {
